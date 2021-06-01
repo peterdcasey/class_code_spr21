@@ -1,9 +1,9 @@
 
 /**
- * Write a description of class Recursion here.
- *
- * @author (your name)
- * @version (a version number or a date)
+ * Recursive algorithms
+ *  1) must call themselves in come fashion
+ *  2) must have a base case that is NOT recursive!
+ *  3) the recursive call must move toward the base case
  */
 public class Recursion
 {
@@ -11,6 +11,11 @@ public class Recursion
         String s = rev("abcde");
         System.out.println(s);
         System.out.println(decimalToBinary(48));
+        System.out.println(ack(3,3));
+        System.out.println(counter);
+        counter = 0;
+        System.out.println(fib(40));
+        System.out.println(counter);
     }
     
     public static String ex1(String s) {
@@ -21,19 +26,43 @@ public class Recursion
         }
         return r;
     }
+    private static long counter = 0;
+    
+    public static long ack(long m, long n) {
+        counter++;
+        if (m == 0) {
+            return n + 1;
+        }
+        
+        if (n == 0) {
+            return ack(m - 1, 1);
+        }
+        
+        return ack(m - 1, ack(m, n - 1));
+    }
     
     public static String rev(String s) {
-        String r = "";
+        String result = "";
         
         if (s.length() < 2)  // base case
-            r = s;
+            result = s;
         else {
             int len = s.length();
             String letter = s.substring(len - 1);
             String substr = s.substring(0, len - 1);
-            r = letter + rev(substr);  // recursive call
+            result = letter + rev(substr);  // recursive call
         }
-        return r;
+        return result;
+    }
+    
+    public static long fib(int n) {
+        counter++;
+        
+        if (n < 2) {
+            return n;
+        }
+        
+        return fib(n - 1) + fib(n - 2);
     }
     
     public static String decimalToBinary(int dec) {
