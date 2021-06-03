@@ -17,15 +17,19 @@ public class FileIOExample
     public static final Random rnd = new Random();
     
     public static void main(String[] args) {
-        writeText("numbers.txt");
+        // iffy behavior ignoring an exception with empty catch(){}
+        try { writeText("numbers.txt"); } catch(Exception e) { } // crash
         List<Integer> nums = readFile("numbers.txt");
+        //List<String> nums = readFile("numbers.txt");
         System.out.println(nums);
         Collections.sort(nums);
         System.out.println(nums);
     }
     
     public static List<Integer> readFile(String name) {
+    //public static List<String> readFile(String name) {
         List<Integer> numbers = null;
+        //List<String> numbers = null;
         
         try {
             numbers = Files.lines(new File(name).toPath())
@@ -41,16 +45,17 @@ public class FileIOExample
         return numbers;
     }
     
-    public static void writeText(String name) {
+    public static void writeText(String name) throws IOException {
         try {
             PrintWriter fileout = new PrintWriter(new FileWriter(name));
 
             for (int i = 1; i <= 10; i++) {
                 fileout.println(rnd.nextInt(100) + 1);
             }
-            fileout.close();
+            fileout.close();    // explicitly close the file!!!!
         } catch (IOException e) {
             e.printStackTrace();
+            throw(e);
         }
  
     }
